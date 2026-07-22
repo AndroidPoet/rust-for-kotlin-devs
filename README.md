@@ -5,10 +5,15 @@
 # Rust for Kotlin Developers — The Complete Guide
 
 <p align="center">
+  <a href="https://androidpoet.github.io/rust-for-kotlin-devs/"><img src="https://img.shields.io/badge/📖_Read_the-Docs_site-CE412B" alt="Docs site"></a>
   <img src="https://img.shields.io/badge/Rust-1.75%2B-CE412B?logo=rust&logoColor=white" alt="Rust">
   <img src="https://img.shields.io/badge/for-Kotlin%20devs-7F52FF?logo=kotlin&logoColor=white" alt="For Kotlin devs">
   <img src="https://img.shields.io/badge/License-MIT-blue" alt="MIT License">
   <img src="https://img.shields.io/badge/examples-cargo%20run-success" alt="Runnable examples">
+</p>
+
+<p align="center">
+  <b><a href="https://androidpoet.github.io/rust-for-kotlin-devs/">📖 Read this as a searchable docs site →</a></b>
 </p>
 
 > A full tour of the Rust language (roughly following [The Rust Book](https://doc.rust-lang.org/book/) and [doc.rust-lang.org](https://doc.rust-lang.org/)), written for someone who already knows Kotlin. Every section shows the Kotlin thing you know, then the Rust equivalent.
