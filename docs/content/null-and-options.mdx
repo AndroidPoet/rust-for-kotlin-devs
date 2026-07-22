@@ -10,11 +10,19 @@ Rust has no `null`. Absence is a value of type `Option<T>`:
 enum Option<T> { Some(T), None }
 ```
 
-```rust
-// Kotlin                              // Rust
-val name: String? = null               let name: Option<String> = None;
-val name: String? = "Ada"             let name: Option<String> = Some("Ada".to_string());
+<div className="rk-compare">
+
+```kotlin filename="Kotlin"
+val name: String? = null
+val name: String? = "Ada"
 ```
+
+```rust filename="Rust"
+let name: Option<String> = None;
+let name: Option<String> = Some("Ada".to_string());
+```
+
+</div>
 
 Handling it — several ergonomic tools that map onto Kotlin habits:
 

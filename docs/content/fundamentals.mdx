@@ -8,14 +8,25 @@ Variables, built-in types, strings, and functions — the syntax you'll learn in
 
 ## Variables
 
-```rust
-// Kotlin                              // Rust
-val x = 5                              let x = 5;                  // immutable by default
-var y = 10                             let mut y = 10;             // opt into mutation with `mut`
-y = 20                                 y = 20;
+<div className="rk-compare">
 
-val name: String = "Ada"              let name: String = "Ada".to_string();
+```kotlin filename="Kotlin"
+val x = 5              // immutable
+var y = 10             // mutable
+y = 20
+
+val name: String = "Ada"
 ```
+
+```rust filename="Rust"
+let x = 5;             // immutable by default
+let mut y = 10;        // opt in with `mut`
+y = 20;
+
+let name: String = "Ada".to_string();
+```
+
+</div>
 
 Two things surprise Kotlin devs:
 
@@ -68,12 +79,20 @@ Kotlin has one `String`. Rust has two you'll use constantly:
 - `String` — owned, heap-allocated, growable. Like `StringBuilder`-meets-`String`.
 - `&str` — a *borrowed* view into string data (a "string slice"). String literals are `&str`.
 
-```rust
-// Kotlin                              // Rust
-val s = "hello"                        let s: &str = "hello";              // literal is &str
-val owned = buildString { ... }       let owned: String = "hello".to_string();
-                                       let owned = String::from("hello");
+<div className="rk-compare">
+
+```kotlin filename="Kotlin"
+val s = "hello"
+val owned = buildString { ... }
 ```
+
+```rust filename="Rust"
+let s: &str = "hello";      // literal is &str
+let owned: String = "hello".to_string();
+let owned = String::from("hello");
+```
+
+</div>
 
 You take `&str` as a function parameter (accepts both), return `String` when you own the data.
 
@@ -96,12 +115,21 @@ let bytes = "hi".as_bytes();
 
 ## Functions
 
-```rust
-// Kotlin                              // Rust
-fun add(a: Int, b: Int): Int {         fn add(a: i32, b: i32) -> i32 {
-    return a + b                           a + b          // no `;`, no `return` — last expression is returned
-}                                      }
+<div className="rk-compare">
+
+```kotlin filename="Kotlin"
+fun add(a: Int, b: Int): Int {
+    return a + b
+}
 ```
+
+```rust filename="Rust"
+fn add(a: i32, b: i32) -> i32 {
+    a + b  // no `;`/`return`: last expr is returned
+}
+```
+
+</div>
 
 **The single biggest syntax idea in Rust:** blocks are expressions. The final line *without* a semicolon is the block's value.
 

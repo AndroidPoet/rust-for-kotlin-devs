@@ -15,15 +15,27 @@ Rust splits errors in two:
 enum Result<T, E> { Ok(T), Err(E) }
 ```
 
-```rust
-// Kotlin                                       // Rust
-fun read(): String { /* throws IOException */ } fn read() -> Result<String, io::Error> { ... }
+<div className="rk-compare">
 
-try {                                           match read() {
-    val s = read()                                  Ok(s) => use_it(s),
-    use(s)                                          Err(e) => eprintln!("{e}"),
-} catch (e: IOException) { ... }                }
+```kotlin filename="Kotlin — exceptions"
+fun read(): String { /* throws IOException */ }
+
+try {
+    val s = read()
+    use(s)
+} catch (e: IOException) { ... }
 ```
+
+```rust filename="Rust — Result"
+fn read() -> Result<String, io::Error> { ... }
+
+match read() {
+    Ok(s) => use_it(s),
+    Err(e) => eprintln!("{e}"),
+}
+```
+
+</div>
 
 **The `?` operator** is the killer feature — it's "unwrap-or-return-the-error", turning verbose matching into a clean happy path:
 

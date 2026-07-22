@@ -64,3 +64,24 @@ html.dark body {
   display: table;
   width: 100%;
 }
+
+/* Side-by-side Kotlin ↔ Rust code comparison */
+.rk-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+  margin-top: 1rem;
+}
+.rk-compare > * {
+  margin: 0 !important;
+  min-width: 0;
+}
+.rk-compare pre {
+  overflow-x: auto;
+}
+@media (max-width: 900px) {
+  .rk-compare {
+    grid-template-columns: 1fr;
+  }
+}

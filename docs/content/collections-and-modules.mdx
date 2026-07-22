@@ -8,16 +8,22 @@ title: "Collections & Modules"
 
 `Vec<T>` and `HashMap<K,V>` are your `MutableList`/`MutableMap`. The iterator chains will feel *very* familiar:
 
-```rust
-// Kotlin
-val evens = (1..10).filter { it % 2 == 0 }.map { it * it }
+<div className="rk-compare">
 
-// Rust — lazy iterators, terminated by a "collect"/consume
+```kotlin filename="Kotlin"
+val evens = (1..10)
+    .filter { it % 2 == 0 }
+    .map { it * it }
+```
+
+```rust filename="Rust — lazy, then collect"
 let evens: Vec<i32> = (1..=10)
     .filter(|x| x % 2 == 0)
     .map(|x| x * x)
     .collect();
 ```
+
+</div>
 
 | Kotlin | Rust |
 |---|---|

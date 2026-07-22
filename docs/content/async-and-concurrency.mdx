@@ -8,15 +8,19 @@ title: "Async & Concurrency"
 
 The shape is similar to coroutines, but Rust doesn't ship a runtime — you add one (almost always **`tokio`**).
 
-```rust
-// Kotlin
+<div className="rk-compare">
+
+```kotlin filename="Kotlin — coroutines"
 suspend fun fetch(): String { ... }
 val data = fetch()
-
-// Rust
-async fn fetch() -> String { ... }
-let data = fetch().await;             // .await is a postfix operator
 ```
+
+```rust filename="Rust — async/await"
+async fn fetch() -> String { ... }
+let data = fetch().await;  // postfix .await
+```
+
+</div>
 
 ```rust
 #[tokio::main]                        // sets up the executor, like a coroutine scope

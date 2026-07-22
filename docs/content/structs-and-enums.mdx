@@ -8,11 +8,11 @@ title: "Structs & Enums"
 
 There's no `class`. Data lives in `struct`s; behavior lives in `impl` blocks.
 
-```rust
-// Kotlin
+```kotlin filename="Kotlin"
 data class User(val name: String, var age: Int)
+```
 
-// Rust
+```rust filename="Rust"
 #[derive(Debug, Clone)]
 struct User {
     name: String,
@@ -105,15 +105,27 @@ impl Shape {
 
 ## Pattern matching — `when` → `match`
 
-```rust
-// Kotlin `when`                        // Rust `match` — exhaustive, an expression
-val label = when (n) {                  let label = match n {
-    0 -> "zero"                             0 => "zero",
-    1, 2 -> "small"                         1 | 2 => "small",
-    in 3..10 -> "medium"                    3..=10 => "medium",
-    else -> "big"                           _ => "big",
-}                                       };
+<div className="rk-compare">
+
+```kotlin filename="Kotlin — when"
+val label = when (n) {
+    0 -> "zero"
+    1, 2 -> "small"
+    in 3..10 -> "medium"
+    else -> "big"
+}
 ```
+
+```rust filename="Rust — match (exhaustive)"
+let label = match n {
+    0 => "zero",
+    1 | 2 => "small",
+    3..=10 => "medium",
+    _ => "big",
+};
+```
+
+</div>
 
 `match` must be **exhaustive** — the compiler forces you to handle every case (or `_`). It destructures deeply:
 
