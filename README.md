@@ -9,11 +9,22 @@
 
 > A full tour of the Rust language (roughly following [The Rust Book](https://doc.rust-lang.org/book/) and [doc.rust-lang.org](https://doc.rust-lang.org/)), written for someone who already knows Kotlin. Every section shows the Kotlin thing you know, then the Rust equivalent.
 
-**Runnable companion:** every major concept has a runnable file in [`examples/`](examples). Clone the repo and try one:
+**Runnable companion:** every concept has a runnable, clippy-clean file in [`examples/`](examples). Clone the repo and try one:
 > ```bash
-> cargo run --example 01_ownership     # 02_option, 03_enums_match, 04_result,
->                                      # 05_traits, 06_iterators, 07_async
+> cargo run --example 01_ownership
 > ```
+>
+> | Example | Guide § | Example | Guide § |
+> |---|---|---|---|
+> | `01_ownership` | §10–11 | `10_strings` | §3 |
+> | `02_option` | §5 | `11_functions_closures` | §4 |
+> | `03_enums_match` | §8–9 | `12_structs` | §6 |
+> | `04_result` | §13 | `13_derive` | §7 |
+> | `05_traits` | §14 | `14_lifetimes` | §12 |
+> | `06_iterators` | §16 | `15_generics` | §15 |
+> | `07_async` | §18 | `16_modules` | §17 |
+> | `08_variables` | §1 | `17_concurrency` | §19 |
+> | `09_types_tuples` | §2 | | |
 
 **The 30-second summary:** Rust will feel like ~50% Kotlin and 50% a new way of thinking. You keep type inference, sealed-class-style enums, pattern matching, lambdas, generics, immutability-by-default, and `Option`/`Result` instead of `null` + exceptions. What's genuinely new: **there is no garbage collector.** Instead the compiler tracks *ownership* and *borrowing* of every value, and *lifetimes* of every reference. There is no class inheritance — you compose behavior with *traits*. Most of your early struggle is with the **borrow checker**, not the syntax. The syntax you'll learn in a day; the ownership model in a week or two.
 
