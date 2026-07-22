@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/header.png" alt="Rust for Kotlin Developers" width="100%">
+</p>
+
 # Rust for Kotlin Developers — The Complete Guide
 
 <p align="center">
