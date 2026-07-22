@@ -2,25 +2,41 @@
 title: Overview
 ---
 
-import { Callout } from 'nextra/components'
+import { Cards } from 'nextra/components'
 
-<p align="center">
+<div className="rk-hero">
   <img
     src="https://raw.githubusercontent.com/AndroidPoet/rust-for-kotlin-devs/main/assets/header.png"
     alt="Rust for Kotlin Developers"
     width="100%"
   />
+</div>
+
+<p className="rk-tagline">
+  A full tour of the Rust language, written for someone who already knows
+  Kotlin. Every section shows the Kotlin thing you know, then the Rust
+  equivalent — with runnable examples.
 </p>
 
-# Rust for Kotlin Developers — The Complete Guide
+<div className="rk-cta">
+  <a href="fundamentals/"><b>Start with the basics →</b></a>
+  <a href="ownership/"><b>Jump to Ownership →</b></a>
+  <a href="https://github.com/AndroidPoet/rust-for-kotlin-devs"><b>GitHub ↗</b></a>
+</div>
 
-> A full tour of the Rust language (roughly following [The Rust Book](https://doc.rust-lang.org/book/) and [doc.rust-lang.org](https://doc.rust-lang.org/)), written for someone who already knows Kotlin. Every section shows the Kotlin thing you know, then the Rust equivalent.
+## Explore the guide
 
-<Callout type="info">
-  **Runnable companion:** every concept has a runnable, clippy-clean file in the
-  repo's [`examples/`](https://github.com/AndroidPoet/rust-for-kotlin-devs/tree/main/examples)
-  folder. Clone it and try one — `cargo run --example 01_ownership`.
-</Callout>
+<Cards>
+  <Cards.Card title="① Fundamentals" href="/fundamentals" />
+  <Cards.Card title="② Null & Option" href="/null-and-options" />
+  <Cards.Card title="③ Structs & Enums" href="/structs-and-enums" />
+  <Cards.Card title="④ Ownership & Borrowing" href="/ownership" />
+  <Cards.Card title="⑤ Errors, Traits & Generics" href="/errors-and-traits" />
+  <Cards.Card title="⑥ Collections & Modules" href="/collections-and-modules" />
+  <Cards.Card title="⑦ Async & Concurrency" href="/async-and-concurrency" />
+  <Cards.Card title="⑧ Cheat Sheet" href="/cheat-sheet" />
+  <Cards.Card title="⑨ 7-Day Learning Plan" href="/learning-plan" />
+</Cards>
 
 ## The 30-second summary
 
@@ -45,7 +61,7 @@ Rust will feel like ~50% Kotlin and 50% a new way of thinking. You keep type inf
 
 ## Runnable examples
 
-Every concept maps to a runnable file in the repo:
+Every concept maps to a runnable file in the repo — `cargo run --example 01_ownership`:
 
 | Example | Topic | Example | Topic |
 |---|---|---|---|

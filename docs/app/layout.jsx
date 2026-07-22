@@ -2,6 +2,10 @@ import { Footer, Layout, Navbar } from 'nextra-theme-docs'
 import { Head } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-docs/style.css'
+import './theme.css'
+
+const crab =
+  'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%A6%80%3C/text%3E%3C/svg%3E'
 
 export const metadata = {
   title: {
@@ -10,6 +14,7 @@ export const metadata = {
   },
   description:
     'A complete Rust language guide for Kotlin developers — side-by-side comparisons, cheat sheet, and a 7-day plan.',
+  icons: { icon: crab },
 }
 
 const navbar = (
@@ -35,7 +40,7 @@ const footer = (
 export default async function RootLayout({ children }) {
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
-      <Head />
+      <Head color={{ hue: 28, saturation: 90 }} />
       <body>
         <Layout
           navbar={navbar}

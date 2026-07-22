@@ -1,0 +1,66 @@
+/* ---- Rust-for-Kotlin-devs theme polish ---- */
+
+/* Hero banner on the landing page */
+.rk-hero {
+  margin-top: 1.5rem;
+}
+.rk-hero img {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 18px 50px -20px rgba(206, 65, 43, 0.35),
+    0 8px 24px -12px rgba(0, 0, 0, 0.45);
+}
+
+/* Tagline under the hero */
+.rk-tagline {
+  text-align: center;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  max-width: 46rem;
+  margin: 1.25rem auto 0;
+  opacity: 0.85;
+}
+
+/* Center the intro CTA row */
+.rk-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin: 1.5rem 0 0.5rem;
+}
+
+/* Warm the primary link/accent underlines a touch in dark mode */
+html.dark {
+  --rk-accent: #f0883e;
+}
+html {
+  --rk-accent: #d1560f;
+}
+
+/* Slightly richer dark background to sit closer to the navy header */
+html.dark body {
+  background-color: #0d0e14;
+}
+
+/* Cards: gentle lift + brand-tinted hover border */
+.nextra-card {
+  transition: border-color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.nextra-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--rk-accent) !important;
+  box-shadow: 0 10px 30px -14px rgba(240, 136, 62, 0.4);
+}
+
+/* Blockquotes read as callouts */
+.nextra-content blockquote {
+  border-inline-start-color: var(--rk-accent) !important;
+}
+
+/* Tighten oversized tables so wide comparison tables scroll gracefully */
+.nextra-content table {
+  display: table;
+  width: 100%;
+}
