@@ -1,0 +1,32 @@
+---
+title: Learning Plan
+---
+
+# A 7-day learning plan
+
+**Day 1 — Syntax & bindings.** Install `rustup`, `cargo new`. Learn `let`/`mut`, functions, `if`/`loop`/`for`, expressions-vs-statements (the semicolon rule). Do [Rustlings](https://github.com/rust-lang/rustlings) `variables`, `functions`, `if`.
+
+**Day 2 — Ownership.** The single most important day. Read [The Book, Ch. 4](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html). Understand move vs copy vs clone, then borrowing (`&`, `&mut`) and the aliasing-XOR-mutability rule. Rustlings `move_semantics`.
+
+**Day 3 — Structs, enums, `match`.** Model data. `impl` methods, `Option`, exhaustive `match`, `if let`/`let else`. This is where your Kotlin `sealed class`/`when` intuition pays off. Rustlings `structs`, `enums`, `options`.
+
+**Day 4 — Error handling & traits.** `Result`, the `?` operator, `panic!` vs recoverable errors. Then `trait`s: default methods, `impl Trait for Type`, derives. Rustlings `error_handling`, `traits`.
+
+**Day 5 — Generics, collections, iterators.** `Vec`, `HashMap`, and the iterator chains (`map`/`filter`/`collect`/`fold`). Generic functions with trait bounds. Rustlings `generics`, `iterators`, `hashmaps`.
+
+**Day 6 — Modules, tooling, a small project.** `mod`/`use`/`pub`, `Cargo.toml`, `cargo add`. Build a small CLI (a to-do list or a word counter). Run `cargo clippy` and read every suggestion.
+
+**Day 7 — Async or a real crate.** Either learn `async`/`.await` with `tokio` (`reqwest` to hit an API, `serde` to parse JSON), or deepen ownership with `Rc`/`Arc`/`RefCell`. Read others' idiomatic code.
+
+## Bookmark these
+
+- [The Rust Book](https://doc.rust-lang.org/book/) — the canonical, excellent tutorial
+- [Rustlings](https://github.com/rust-lang/rustlings) — hands-on compiler-driven exercises
+- [Rust by Example](https://doc.rust-lang.org/rust-by-example/) — runnable snippets
+- [The Rust Playground](https://play.rust-lang.org) — try things instantly
+- [Comprehensive Rust (Google)](https://google.github.io/comprehensive-rust/) — course-format, great for experienced devs
+- [std docs](https://doc.rust-lang.org/std/) — searchable, always the source of truth
+
+---
+
+*Bottom line: the syntax is a weekend. The real curriculum is ownership — spend Day 2 there and re-read it Day 5. Once you stop fighting the borrow checker and start hearing it as "you're aliasing mutable state, and I won't let that be a bug," Rust becomes the language that catches your mistakes at compile time instead of 3 AM in production. Lean on `clippy`, model everything with enums, and reach for `.clone()` without guilt while you're learning — you can optimize the borrows later.*

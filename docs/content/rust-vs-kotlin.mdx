@@ -1,0 +1,27 @@
+---
+title: "Rust vs Kotlin"
+---
+
+# Rust vs Kotlin
+
+## Things Rust has that Kotlin doesn't
+
+- **Ownership & the borrow checker** — memory and data-race safety with *no garbage collector* and no runtime cost.
+- **Real zero-cost abstractions** — iterators, generics, and `async` compile down to hand-written-speed code (monomorphization, no type erasure).
+- **Enums with data as the default modeling tool** — lighter than sealed hierarchies, exhaustively matched.
+- **`?` for both `Option` and `Result`** — uniform, explicit propagation.
+- **Powerful pattern matching** — guards, ranges, bindings, nested destructuring, `let`-`else`.
+- **Hygienic macros** (`println!`, `vec!`, `derive`) — code generation without annotation processors/KAPT.
+- **One canonical formatter and a world-class linter** (`rustfmt`, `clippy`) built in.
+- **Compiles to a single static native binary** — no JVM, tiny footprint, great for CLIs, WASM, and embedded.
+
+## Things you'll miss from Kotlin
+
+- **The GC.** Not thinking about ownership at all. Building a graph/doubly-linked list is a *lesson* in Rust, not a one-liner.
+- **`data class` one-liners** and `copy()` — Rust needs derives and struct-update syntax.
+- **Inheritance & `open`/`override`** — you'll restructure designs around composition and traits.
+- **Scope functions** (`let`/`run`/`apply`/`also`/`with`) — no direct equivalents; you write plain code.
+- **Effortless shared mutable state** — every `Rc<RefCell<T>>` reminds you it isn't free.
+- **Fast incremental compiles** — Rust builds are slower; `cargo check` and keeping crates small helps.
+- **`null` + `?.` terseness** — `Option` is safer but chattier until the combinators become muscle memory.
+- **A batteries-included stdlib for web/JSON** — Rust leans on crates (`serde`, `reqwest`, `tokio`), which is idiomatic but more assembly-required.

@@ -1,0 +1,34 @@
+---
+title: Cheat Sheet
+---
+
+# Idiom translation cheat sheet
+
+| Kotlin | Rust |
+|---|---|
+| `val x = 5` | `let x = 5;` |
+| `var x = 5` | `let mut x = 5;` |
+| `x?.foo() ?: default` | `x.map(\|v\| v.foo()).unwrap_or(default)` |
+| `x!!` | `x.unwrap()` / `x.expect("msg")` |
+| `x ?: return` | `let Some(x) = x else { return; };` |
+| `if (x != null) { ... }` | `if let Some(x) = x { ... }` |
+| `when (x) { ... }` | `match x { ... }` |
+| `data class` | `#[derive(Clone, Debug, PartialEq)] struct` |
+| `sealed class` | `enum` (variants carry data) |
+| `object` (singleton) | module-level fns, or a `static`, or `Lazy` |
+| `companion object` | `impl` block with associated fns (`Type::new`) |
+| `interface` | `trait` |
+| `class Foo : Bar()` (inheritance) | composition + `trait` (no inheritance) |
+| extension fun | `impl SomeTrait for Type` |
+| `lazy { }` | `once_cell::Lazy` / `std::sync::OnceLock` |
+| `require()` / `check()` | `assert!` / `debug_assert!` / return `Err` |
+| `throw` | `return Err(...)` (recoverable) or `panic!` (bug) |
+| `try/catch` | `match` on `Result`, or `?` to propagate |
+| `List<T>` (read-only) | `&[T]` (slice) |
+| `MutableList<T>` | `Vec<T>` |
+| `Map<K,V>` | `HashMap<K,V>` |
+| `to`/`Pair` | tuple `(a, b)` |
+| `.let { }` | `let` binding, or `.map()` on Option |
+| `.also { }` | `{ let _ = &x; ... x }` / `inspect` (iterators) |
+| `.apply { }` | build the struct directly (fields are explicit) |
+| `buildString { }` | `let mut s = String::new(); s.push_str(...);` |

@@ -1,0 +1,9 @@
+packages:
+  - .
+
+verifyDepsBeforeRun: false
+onlyBuiltDependencies:
+  - sharp
+
+overrides:
+  typescript: 5.7.3

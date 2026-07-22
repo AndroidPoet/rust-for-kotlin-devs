@@ -1,0 +1,56 @@
+---
+title: "Async & Concurrency"
+---
+
+# Async & Concurrency
+
+## Async — `suspend` → `async`/`.await`
+
+The shape is similar to coroutines, but Rust doesn't ship a runtime — you add one (almost always **`tokio`**).
+
+```rust
+// Kotlin
+suspend fun fetch(): String { ... }
+val data = fetch()
+
+// Rust
+async fn fetch() -> String { ... }
+let data = fetch().await;             // .await is a postfix operator
+```
+
+```rust
+#[tokio::main]                        // sets up the executor, like a coroutine scope
+async fn main() {
+    let (a, b) = tokio::join!(fetch_a(), fetch_b());   // ~ awaitAll / coroutineScope
+}
+```
+
+Key differences from coroutines:
+
+- `async fn` returns a **`Future`** that is *lazy* — it does nothing until `.await`ed or spawned (Kotlin coroutines are eager once launched).
+- No built-in `Dispatchers` / structured concurrency — the runtime (tokio) provides `spawn`, `join!`, `select!`, channels.
+- `.await` is postfix (`x.await`) and chains cleanly.
+
+## Concurrency & the `Send`/`Sync` guarantee
+
+Kotlin relies on you to avoid data races. Rust makes them a **compile error** via the same ownership rules plus two marker traits:
+
+- `Send` — safe to move to another thread.
+- `Sync` — safe to share (`&T`) across threads.
+
+```rust
+use std::thread;
+use std::sync::{Arc, Mutex};
+
+let counter = Arc::new(Mutex::new(0));       // shared, thread-safe ownership
+let mut handles = vec![];
+for _ in 0..10 {
+    let c = Arc::clone(&counter);
+    handles.push(thread::spawn(move || {     // `move` transfers ownership into the thread
+        *c.lock().unwrap() += 1;
+    }));
+}
+for h in handles { h.join().unwrap(); }
+```
+
+The famous slogan **"fearless concurrency"**: if it compiles, it has no data races. That's the payoff for the borrow checker.

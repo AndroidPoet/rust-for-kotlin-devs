@@ -1,0 +1,56 @@
+---
+title: "Collections & Modules"
+---
+
+# Collections & Modules
+
+## Collections & iterators
+
+`Vec<T>` and `HashMap<K,V>` are your `MutableList`/`MutableMap`. The iterator chains will feel *very* familiar:
+
+```rust
+// Kotlin
+val evens = (1..10).filter { it % 2 == 0 }.map { it * it }
+
+// Rust — lazy iterators, terminated by a "collect"/consume
+let evens: Vec<i32> = (1..=10)
+    .filter(|x| x % 2 == 0)
+    .map(|x| x * x)
+    .collect();
+```
+
+| Kotlin | Rust |
+|---|---|
+| `.map { }` | `.map(\|x\| ...)` |
+| `.filter { }` | `.filter(\|x\| ...)` |
+| `.forEach { }` | `.for_each(...)` or a `for` loop |
+| `.fold(0) { acc, x -> }` | `.fold(0, \|acc, x\| ...)` |
+| `.sumOf { }` | `.map(...).sum()` |
+| `.firstOrNull { }` | `.find(...)` → returns `Option` |
+| `.groupBy { }` | manual with `HashMap`, or the `itertools` crate |
+| `.sortedBy { }` | `.sort_by_key(...)` (in place, on a `Vec`) |
+
+Iterators are **lazy** — nothing runs until a consuming call (`collect`, `sum`, `for`, `count`). `.iter()` borrows, `.into_iter()` consumes, `.iter_mut()` gives mutable refs.
+
+## Modules, visibility & packages
+
+```rust
+// A "crate" = a package (a lib or binary). Cargo.toml is your build.gradle.
+mod network {                    // module, like a Kotlin package/file boundary
+    pub fn connect() {}          // `pub` = public; private by default
+    mod internal { }             // nested, private
+}
+
+use network::connect;           // like Kotlin import
+connect();
+```
+
+| Kotlin | Rust |
+|---|---|
+| `internal` / private (default is public!) | **private by default**, `pub` to expose |
+| package | `mod` (modules) + crate |
+| Gradle module / artifact | crate |
+| `build.gradle`, Maven Central | `Cargo.toml`, [crates.io](https://crates.io) |
+| `import foo.Bar` | `use foo::Bar;` |
+
+Note the polarity flip: Kotlin is public-by-default, Rust is **private-by-default**.

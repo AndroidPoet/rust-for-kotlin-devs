@@ -1,0 +1,82 @@
+---
+title: Ownership & Borrowing
+---
+
+import { Callout } from 'nextra/components'
+
+# Ownership & Borrowing
+
+<Callout type="warning">
+  This is the part with no Kotlin equivalent — the source of most early compile
+  errors. Read it slowly; it's worth a whole day on its own.
+</Callout>
+
+## Ownership — the actual new thing
+
+**Rule 1: every value has exactly one owner.** When the owner goes out of scope, the value is dropped (freed). No GC, no reference counting by default.
+
+```rust
+let s1 = String::from("hi");
+let s2 = s1;              // ownership MOVES to s2
+// println!("{s1}");     // ❌ compile error: s1 was moved, it's no longer valid
+```
+
+For heap types (`String`, `Vec`, boxed data), assignment/passing is a **move**, not a copy. `s1` is invalidated so two owners can't both free it. Small `Copy` types (`i32`, `bool`, `char`, tuples of them) are *copied* instead, so this feels normal:
+
+```rust
+let a = 5;
+let b = a;               // copied — both a and b are valid
+```
+
+**Passing to a function moves it too** unless you borrow (next section) or `.clone()`:
+
+```rust
+fn consume(s: String) { /* s dropped here */ }
+let s = String::from("hi");
+consume(s);
+// s is gone now; use consume(s.clone()) to keep a copy
+```
+
+Mental model: think of every non-`Copy` value like a unique resource (a file handle, a mutex guard). You wouldn't want two owners each closing it.
+
+## Borrowing & references — passing without giving away
+
+Moving everywhere would be painful, so you **borrow** with references. Two kinds:
+
+```rust
+fn len(s: &str) -> usize { s.len() }           // &  = shared/immutable borrow
+fn push(s: &mut String) { s.push('!'); }       // &mut = exclusive/mutable borrow
+
+let mut s = String::from("hi");
+let n = len(&s);         // lend a read-only view; s still owned here
+push(&mut s);            // lend a mutable view
+```
+
+**The borrow-checker rules** (the source of most early compile errors):
+
+1. You can have **any number of `&` shared borrows**, OR **exactly one `&mut`** — never both at the same time.
+2. A reference must never outlive the data it points to (no dangling pointers).
+
+```rust
+let mut v = vec![1, 2, 3];
+let first = &v[0];       // shared borrow
+v.push(4);               // ❌ needs &mut while `first` is still borrowing — compile error
+println!("{first}");
+```
+
+This is Kotlin's "don't mutate a list while iterating it" turned into a compile-time guarantee across your whole program. It's *aliasing XOR mutability*: data can be shared or mutable, never both at once. This is also why Rust is data-race-free by construction.
+
+When single ownership genuinely won't do (a value shared in many places), you reach for **`Rc<T>`** (shared ownership, single-thread) or **`Arc<T>`** (atomic, thread-safe), often with **`RefCell`/`Mutex`** for interior mutability — the closest thing to Kotlin's freely-shared references, made explicit.
+
+## Lifetimes — usually invisible, occasionally explicit
+
+Lifetimes are how the compiler proves rule 2 (no dangling references). Most of the time they're **inferred** and you write nothing. You only annotate when a function returns a reference and the compiler can't tell which input it borrows from:
+
+```rust
+// "the returned &str lives as long as both inputs"
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() { x } else { y }
+}
+```
+
+`'a` is a *lifetime parameter* — a label, not a duration you pick. Don't fight to understand these on day one; you'll meet them when you need them, and the error message usually tells you what to write.

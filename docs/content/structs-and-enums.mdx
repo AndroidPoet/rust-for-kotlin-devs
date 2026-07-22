@@ -1,0 +1,134 @@
+---
+title: "Structs & Enums"
+---
+
+# Structs & Enums
+
+## Structs & "constructors"
+
+There's no `class`. Data lives in `struct`s; behavior lives in `impl` blocks.
+
+```rust
+// Kotlin
+data class User(val name: String, var age: Int)
+
+// Rust
+#[derive(Debug, Clone)]
+struct User {
+    name: String,
+    age: u32,        // fields are private to the module by default; add `pub` to expose
+}
+
+impl User {
+    // associated function = "constructor" by convention, named `new`
+    fn new(name: String, age: u32) -> Self {
+        User { name, age }        // field init shorthand, like Kotlin
+    }
+
+    // method: takes `&self` (borrow), `&mut self` (mutable borrow), or `self` (consume)
+    fn greet(&self) -> String {
+        format!("Hi, I'm {}", self.name)
+    }
+
+    fn have_birthday(&mut self) {
+        self.age += 1;
+    }
+}
+
+let mut u = User::new("Ada".into(), 36);
+println!("{}", u.greet());
+u.have_birthday();
+```
+
+Key differences from Kotlin:
+
+- No primary-constructor sugar — you write `fn new`. It's just a convention, not a keyword.
+- `self`/`&self`/`&mut self` is explicit and **matters**: it declares whether the method reads, mutates, or consumes the receiver.
+- Other struct shapes: **tuple structs** `struct Point(i32, i32);` and **unit structs** `struct Marker;`.
+
+## `data class` → derive macros
+
+The Kotlin `data class` freebies (`equals`, `hashCode`, `toString`, `copy`) are opt-in via `#[derive(...)]`:
+
+```rust
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+struct Point { x: i32, y: i32 }
+
+let a = Point { x: 1, y: 2 };
+let b = a.clone();               // ~ Kotlin copy() (clone is the general mechanism)
+assert_eq!(a, b);                // PartialEq gives ==
+println!("{a:?}");               // Debug gives a printable form ({:?})
+
+// struct update syntax ≈ copy(x = 9)
+let c = Point { x: 9, ..a };
+```
+
+| Kotlin data class gives you | Rust derive |
+|---|---|
+| `equals`/`hashCode` | `PartialEq, Eq, Hash` |
+| `toString` | `Debug` (`{:?}`) and/or `Display` (hand-written, `{}`) |
+| `copy()` | `Clone` + struct update syntax `{ ..old }` |
+| `componentN` destructuring | pattern destructuring `let Point { x, y } = p;` |
+
+## Enums — the sealed class you always wanted
+
+Kotlin `sealed class` and Rust `enum` are the same idea, but enums are *the* central Rust type and are far lighter to write:
+
+```kotlin
+// Kotlin
+sealed interface Shape
+data class Circle(val r: Double) : Shape
+data class Rect(val w: Double, val h: Double) : Shape
+object Empty : Shape
+```
+
+```rust
+// Rust — one declaration, variants carry data
+enum Shape {
+    Circle { r: f64 },
+    Rect(f64, f64),
+    Empty,
+}
+
+impl Shape {
+    fn area(&self) -> f64 {
+        match self {
+            Shape::Circle { r } => std::f64::consts::PI * r * r,
+            Shape::Rect(w, h) => w * h,
+            Shape::Empty => 0.0,
+        }
+    }
+}
+```
+
+`Option<T>` and `Result<T, E>` are just enums from the standard library. Once enums click, most of Rust clicks.
+
+## Pattern matching — `when` → `match`
+
+```rust
+// Kotlin `when`                        // Rust `match` — exhaustive, an expression
+val label = when (n) {                  let label = match n {
+    0 -> "zero"                             0 => "zero",
+    1, 2 -> "small"                         1 | 2 => "small",
+    in 3..10 -> "medium"                    3..=10 => "medium",
+    else -> "big"                           _ => "big",
+}                                       };
+```
+
+`match` must be **exhaustive** — the compiler forces you to handle every case (or `_`). It destructures deeply:
+
+```rust
+match shape {
+    Shape::Circle { r } if *r > 10.0 => println!("big circle"),   // guard
+    Shape::Rect(w, h) => println!("{w}x{h}"),
+    other => println!("{:?}", other),
+}
+```
+
+Lightweight forms for one case — the Kotlin `if`-smart-cast replacements:
+
+```rust
+if let Some(x) = maybe { use_it(x); }
+let Some(x) = maybe else { return; };    // let-else: bind or bail
+while let Some(item) = stack.pop() { /* ... */ }
+```

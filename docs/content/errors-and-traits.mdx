@@ -1,0 +1,87 @@
+---
+title: "Errors, Traits & Generics"
+---
+
+# Errors, Traits & Generics
+
+## Error handling — `Result<T, E>`, not exceptions
+
+Rust splits errors in two:
+
+- **Unrecoverable** → `panic!` (bugs, broken invariants). Unwinds/aborts. Like an uncaught exception, but you don't design around catching it.
+- **Recoverable** → `Result<T, E>`, an ordinary value you must handle.
+
+```rust
+enum Result<T, E> { Ok(T), Err(E) }
+```
+
+```rust
+// Kotlin                                       // Rust
+fun read(): String { /* throws IOException */ } fn read() -> Result<String, io::Error> { ... }
+
+try {                                           match read() {
+    val s = read()                                  Ok(s) => use_it(s),
+    use(s)                                          Err(e) => eprintln!("{e}"),
+} catch (e: IOException) { ... }                }
+```
+
+**The `?` operator** is the killer feature — it's "unwrap-or-return-the-error", turning verbose matching into a clean happy path:
+
+```rust
+fn load() -> Result<Config, io::Error> {
+    let text = fs::read_to_string("config.toml")?;   // if Err, return it now
+    let cfg = parse(&text)?;                          // same
+    Ok(cfg)
+}
+```
+
+`?` is roughly Kotlin's checked-exception propagation, but visible and type-checked at every call site. Crates like `anyhow` (apps) and `thiserror` (libraries) make error types ergonomic.
+
+## Traits — interfaces, extensions, and generic bounds in one
+
+Rust has **no inheritance.** `trait` is the single tool for shared behavior — it's Kotlin's `interface` (with default methods), extension functions, and operator overloading combined.
+
+```rust
+// Kotlin interface with default method
+trait Greet {
+    fn name(&self) -> String;                 // required
+    fn hello(&self) -> String {               // default method
+        format!("Hello, {}", self.name())
+    }
+}
+
+struct Dog;
+impl Greet for Dog {
+    fn name(&self) -> String { "Rex".into() }
+}
+```
+
+Because traits can be implemented for *any* type (even ones you didn't define, like adding a method to `i32`), they double as **extension functions**:
+
+```rust
+trait Doubler { fn double(&self) -> Self; }
+impl Doubler for i32 { fn double(&self) -> i32 { self * 2 } }
+let x = 21.double();     // 42
+```
+
+Common derivable/standard traits worth knowing early: `Debug`, `Clone`, `Copy`, `PartialEq`/`Eq`, `Default`, `From`/`Into`, `Iterator`, `Display`.
+
+## Generics
+
+Nearly identical to Kotlin, with `where`-clause bounds:
+
+```rust
+// Kotlin: fun <T : Comparable<T>> max(list: List<T>): T
+fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
+    let mut max = list[0];
+    for &item in list { if item > max { max = item; } }
+    max
+}
+
+// longer form
+fn print_all<T>(items: &[T]) where T: std::fmt::Display { /* ... */ }
+```
+
+- Trait bounds (`T: PartialOrd`) are Kotlin's generic constraints (`T : Comparable<T>`).
+- `impl Trait` in argument/return position ≈ Kotlin's use of an interface type without naming the generic.
+- Rust generics are **monomorphized** (zero-cost, specialized per type at compile time) — no reflection, no type erasure.

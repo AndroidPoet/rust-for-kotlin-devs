@@ -1,0 +1,30 @@
+---
+title: Tooling
+---
+
+# Tooling crash course
+
+| Task | Kotlin/Gradle | Rust/Cargo |
+|---|---|---|
+| New project | IDE / `gradle init` | `cargo new my_app` |
+| Build | `./gradlew build` | `cargo build` (`--release` for optimized) |
+| Run | `./gradlew run` | `cargo run` |
+| Test | `./gradlew test` | `cargo test` |
+| Add dependency | edit `build.gradle` | `cargo add serde` (edits `Cargo.toml`) |
+| Format | ktlint / spotless | `cargo fmt` (rustfmt — one canonical style) |
+| Lint | detekt | `cargo clippy` — genuinely excellent, run it constantly |
+| Docs | Dokka | `cargo doc --open` |
+| REPL | Kotlin REPL | none official; use [play.rust-lang.org](https://play.rust-lang.org) |
+
+`clippy` is the single best learning tool — it suggests idiomatic rewrites. Install everything via **`rustup`** (the toolchain manager, like sdkman for Rust).
+
+Write tests inline, in the same file:
+
+```rust
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn it_adds() { assert_eq!(add(2, 2), 4); }
+}
+```

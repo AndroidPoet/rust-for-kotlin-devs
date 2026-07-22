@@ -1,0 +1,38 @@
+---
+title: "Null & Option"
+---
+
+# No null — `Option<T>`
+
+Rust has no `null`. Absence is a value of type `Option<T>`:
+
+```rust
+enum Option<T> { Some(T), None }
+```
+
+```rust
+// Kotlin                              // Rust
+val name: String? = null               let name: Option<String> = None;
+val name: String? = "Ada"             let name: Option<String> = Some("Ada".to_string());
+```
+
+Handling it — several ergonomic tools that map onto Kotlin habits:
+
+```rust
+// Kotlin: name?.length                     // map over Some
+let len: Option<usize> = name.map(|n| n.len());
+
+// Kotlin: name ?: "default"                 // provide a fallback
+let n = name.unwrap_or("default".to_string());
+let n = name.unwrap_or_else(|| expensive());
+
+// Kotlin: name!!                            // assert non-null (panics if None)
+let n = name.unwrap();          // or .expect("name must be set")
+
+// Kotlin: if (name != null) { use(name) }   // smart-cast style
+if let Some(n) = &name {
+    println!("{n}");
+}
+```
+
+`?` also works on `Option` inside a function returning `Option` — early-returns `None`.

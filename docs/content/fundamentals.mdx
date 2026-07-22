@@ -1,0 +1,123 @@
+---
+title: Fundamentals
+---
+
+# Fundamentals
+
+Variables, built-in types, strings, and functions — the syntax you'll learn in a day.
+
+## Variables
+
+```rust
+// Kotlin                              // Rust
+val x = 5                              let x = 5;                  // immutable by default
+var y = 10                             let mut y = 10;             // opt into mutation with `mut`
+y = 20                                 y = 20;
+
+val name: String = "Ada"              let name: String = "Ada".to_string();
+```
+
+Two things surprise Kotlin devs:
+
+- **Shadowing is idiomatic.** You can re-declare the same name with a new `let`, even changing its type. This is not mutation — it's a new binding.
+
+```rust
+let spaces = "   ";           // &str
+let spaces = spaces.len();    // now usize — totally fine, not `mut`
+```
+
+- **`const` is compile-time only** and needs a type. There's also `static` for globals. Neither is your everyday tool — `let` is.
+
+```rust
+const MAX_POINTS: u32 = 100_000;
+```
+
+## Built-in types
+
+Rust is explicit about integer width and signedness. There is no single `Int`.
+
+| Kotlin | Rust |
+|---|---|
+| `Int` | `i32` (default integer) |
+| `Long` | `i64` |
+| `Short` / `Byte` | `i16` / `i8` |
+| unsigned (none) | `u8`, `u32`, `u64`, `usize` (usize = index/length type) |
+| `Float` / `Double` | `f32` / `f64` (default float) |
+| `Boolean` | `bool` |
+| `Char` | `char` (a full Unicode scalar, 4 bytes — not a UTF-16 unit) |
+| `String` | `String` (owned, growable) **and** `&str` (borrowed string slice) |
+| `List<T>` | `Vec<T>` (growable) and `[T; N]` (fixed array), `&[T]` (slice) |
+| `Map<K,V>` | `HashMap<K, V>` (from `std::collections`) |
+| `Pair`/`Triple` | tuples: `(i32, String)`, `(a, b, c)` |
+| `Unit` | `()` (the unit type) |
+| `Nothing` | `!` (the never type) |
+
+```rust
+let sum: i64 = 1_000_000 * 2;
+let tuple: (i32, f64, char) = (500, 6.4, 'z');
+let (a, b, c) = tuple;            // destructuring, like Kotlin
+let first = tuple.0;             // tuple index access
+```
+
+Integer overflow **panics in debug builds** and wraps in release — use `wrapping_add`, `checked_add`, `saturating_add` when you mean it.
+
+## Strings — the one that trips everyone up
+
+Kotlin has one `String`. Rust has two you'll use constantly:
+
+- `String` — owned, heap-allocated, growable. Like `StringBuilder`-meets-`String`.
+- `&str` — a *borrowed* view into string data (a "string slice"). String literals are `&str`.
+
+```rust
+// Kotlin                              // Rust
+val s = "hello"                        let s: &str = "hello";              // literal is &str
+val owned = buildString { ... }       let owned: String = "hello".to_string();
+                                       let owned = String::from("hello");
+```
+
+You take `&str` as a function parameter (accepts both), return `String` when you own the data.
+
+**String interpolation** looks familiar but only takes simple names by default:
+
+```rust
+let name = "Ada";
+let age = 36;
+println!("{name} is {age}");                 // inline capture (Rust 2021+)
+println!("{} is {}", name, age);            // positional
+let msg = format!("{name} is {age}");        // returns a String
+```
+
+Indexing by integer (`s[0]`) is **not allowed** — bytes vs chars vs graphemes are genuinely ambiguous in UTF-8. Iterate instead:
+
+```rust
+for c in "héllo".chars() { /* ... */ }
+let bytes = "hi".as_bytes();
+```
+
+## Functions
+
+```rust
+// Kotlin                              // Rust
+fun add(a: Int, b: Int): Int {         fn add(a: i32, b: i32) -> i32 {
+    return a + b                           a + b          // no `;`, no `return` — last expression is returned
+}                                      }
+```
+
+**The single biggest syntax idea in Rust:** blocks are expressions. The final line *without* a semicolon is the block's value.
+
+```rust
+let y = {
+    let x = 3;
+    x + 1        // no semicolon → this block evaluates to 4
+};
+```
+
+`return` exists but is mostly for early exit. Everything else "falls out" the bottom.
+
+Closures (lambdas):
+
+```rust
+// Kotlin: { a, b -> a + b }
+let add = |a, b| a + b;
+let nums: Vec<i32> = (1..=5).map(|x| x * 2).collect();
+```

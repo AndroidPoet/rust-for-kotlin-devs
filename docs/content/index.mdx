@@ -1,0 +1,62 @@
+---
+title: Overview
+---
+
+import { Callout } from 'nextra/components'
+
+<p align="center">
+  <img
+    src="https://raw.githubusercontent.com/AndroidPoet/rust-for-kotlin-devs/main/assets/header.png"
+    alt="Rust for Kotlin Developers"
+    width="100%"
+  />
+</p>
+
+# Rust for Kotlin Developers — The Complete Guide
+
+> A full tour of the Rust language (roughly following [The Rust Book](https://doc.rust-lang.org/book/) and [doc.rust-lang.org](https://doc.rust-lang.org/)), written for someone who already knows Kotlin. Every section shows the Kotlin thing you know, then the Rust equivalent.
+
+<Callout type="info">
+  **Runnable companion:** every concept has a runnable, clippy-clean file in the
+  repo's [`examples/`](https://github.com/AndroidPoet/rust-for-kotlin-devs/tree/main/examples)
+  folder. Clone it and try one — `cargo run --example 01_ownership`.
+</Callout>
+
+## The 30-second summary
+
+Rust will feel like ~50% Kotlin and 50% a new way of thinking. You keep type inference, sealed-class-style enums, pattern matching, lambdas, generics, immutability-by-default, and `Option`/`Result` instead of `null` + exceptions. What's genuinely new: **there is no garbage collector.** Instead the compiler tracks *ownership* and *borrowing* of every value, and *lifetimes* of every reference. There is no class inheritance — you compose behavior with *traits*. Most of your early struggle is with the **borrow checker**, not the syntax. The syntax you'll learn in a day; the ownership model in a week or two.
+
+| Kotlin habit | Rust reality |
+|---|---|
+| `val` / `var` | `let` / `let mut` — bindings are immutable **by default**, opt into mutation with `mut` |
+| GC cleans up for you | **Ownership** — each value has one owner; freed when the owner goes out of scope. No GC. |
+| Pass objects freely (shared refs) | **Borrowing** — pass `&T` (shared) or `&mut T` (exclusive); the compiler enforces the rules |
+| `fun foo(): Int` | `fn foo() -> i32` — `fn` keyword, return type after `->` |
+| `null` + `?.` `?:` `!!` | **No null.** `Option<T>` = `Some(x)` / `None`, unwrapped with `match`, `?`, `.unwrap()`, `if let` |
+| Exceptions + `try/catch` | **No exceptions** (for recoverable errors). `Result<T, E>` = `Ok`/`Err`, propagated with `?` |
+| `class` + inheritance (`open`/`override`) | `struct` for data, **no inheritance** — share behavior via `trait` (like interfaces with defaults) |
+| `sealed class` / `sealed interface` | `enum` — Rust enums carry data per-variant; this is the workhorse type |
+| `interface` | `trait` — but also does the job of generics bounds, extensions, and operator overloading |
+| `when` | `match` — exhaustive, pattern-based, an expression. Very close, more powerful. |
+| Extension functions | `impl` blocks + traits (`impl Trait for Type`) |
+| `data class` | `#[derive(Clone, Debug, PartialEq)] struct` — you derive what you want |
+| Coroutines + `suspend` | `async`/`.await` + a runtime (`tokio`) — similar shape, you pick the executor |
+| Semicolons optional | **Semicolons matter**: a line with `;` is a statement, without `;` it's the returned expression |
+
+## Runnable examples
+
+Every concept maps to a runnable file in the repo:
+
+| Example | Topic | Example | Topic |
+|---|---|---|---|
+| `01_ownership` | Ownership & borrowing | `10_strings` | Strings |
+| `02_option` | Option / null-safety | `11_functions_closures` | Functions |
+| `03_enums_match` | Enums & match | `12_structs` | Structs |
+| `04_result` | Error handling | `13_derive` | Derive macros |
+| `05_traits` | Traits | `14_lifetimes` | Lifetimes |
+| `06_iterators` | Collections | `15_generics` | Generics |
+| `07_async` | Async | `16_modules` | Modules |
+| `08_variables` | Variables | `17_concurrency` | Concurrency |
+| `09_types_tuples` | Types & tuples | | |
+
+*Bottom line: read the guide once, spend extra time on [Ownership & Borrowing](/ownership), put return types after `->`, model everything with enums, and reach for `.clone()` without guilt while you learn. You'll be productive in a weekend.*

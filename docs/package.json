@@ -1,0 +1,21 @@
+{
+  "name": "rust-for-kotlin-devs-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "postbuild": "pagefind --site out",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^15.1.6",
+    "nextra": "4.2.17",
+    "nextra-theme-docs": "4.2.17",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "pagefind": "^1.3.0"
+  }
+}
