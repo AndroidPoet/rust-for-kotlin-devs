@@ -136,7 +136,7 @@ You take `&str` as a function parameter (accepts both), return `String` when you
 ```rust
 let name = "Ada";
 let age = 36;
-println!("{name} is {age}");                 // inline capture (Rust 2021+)
+println!("{name} is {age}");                 // inline capture (Rust 1.58+, any edition)
 println!("{} is {}", name, age);            // positional
 let msg = format!("{name} is {age}");        // returns a String
 ```
@@ -463,7 +463,7 @@ fn load() -> Result<Config, io::Error> {
 }
 ```
 
-`?` is roughly Kotlin's checked-exception propagation, but visible and type-checked at every call site. Crates like `anyhow` (apps) and `thiserror` (libraries) make error types ergonomic.
+`?` is roughly like Java's checked-exception propagation (which Kotlin deliberately dropped) — except the error is an ordinary value, visible and type-checked at every call site. Crates like `anyhow` (apps) and `thiserror` (libraries) make error types ergonomic.
 
 ---
 
@@ -677,7 +677,7 @@ mod tests {
 | `interface` | `trait` |
 | `class Foo : Bar()` (inheritance) | composition + `trait` (no inheritance) |
 | extension fun | `impl SomeTrait for Type` |
-| `lazy { }` | `once_cell::Lazy` / `std::sync::OnceLock` |
+| `lazy { }` | `std::sync::LazyLock` (stable 1.80) / `once_cell::sync::Lazy` |
 | `require()` / `check()` | `assert!` / `debug_assert!` / return `Err` |
 | `throw` | `return Err(...)` (recoverable) or `panic!` (bug) |
 | `try/catch` | `match` on `Result`, or `?` to propagate |
@@ -701,7 +701,7 @@ mod tests {
 - **Powerful pattern matching** — guards, ranges, bindings, nested destructuring, `let`-`else`.
 - **Hygienic macros** (`println!`, `vec!`, `derive`) — code generation without annotation processors/KAPT.
 - **One canonical formatter and a world-class linter** (`rustfmt`, `clippy`) built in.
-- **Compiles to a single static native binary** — no JVM, tiny footprint, great for CLIs, WASM, and embedded.
+- **Compiles to a single self-contained native binary** — no JVM, tiny footprint, great for CLIs, WASM, and embedded (fully static with a `musl` target).
 
 ## 23. Things you'll miss from Kotlin
 

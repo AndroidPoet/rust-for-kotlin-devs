@@ -47,7 +47,7 @@ fn load() -> Result<Config, io::Error> {
 }
 ```
 
-`?` is roughly Kotlin's checked-exception propagation, but visible and type-checked at every call site. Crates like `anyhow` (apps) and `thiserror` (libraries) make error types ergonomic.
+`?` is roughly like Java's checked-exception propagation (which Kotlin deliberately dropped) — except the error is an ordinary value, visible and type-checked at every call site. Crates like `anyhow` (apps) and `thiserror` (libraries) make error types ergonomic.
 
 ## Traits — interfaces, extensions, and generic bounds in one
 

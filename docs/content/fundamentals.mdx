@@ -101,7 +101,7 @@ You take `&str` as a function parameter (accepts both), return `String` when you
 ```rust
 let name = "Ada";
 let age = 36;
-println!("{name} is {age}");                 // inline capture (Rust 2021+)
+println!("{name} is {age}");                 // inline capture (Rust 1.58+, any edition)
 println!("{} is {}", name, age);            // positional
 let msg = format!("{name} is {age}");        // returns a String
 ```

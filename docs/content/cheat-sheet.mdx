@@ -20,7 +20,7 @@ title: Cheat Sheet
 | `interface` | `trait` |
 | `class Foo : Bar()` (inheritance) | composition + `trait` (no inheritance) |
 | extension fun | `impl SomeTrait for Type` |
-| `lazy { }` | `once_cell::Lazy` / `std::sync::OnceLock` |
+| `lazy { }` | `std::sync::LazyLock` (stable 1.80) / `once_cell::sync::Lazy` |
 | `require()` / `check()` | `assert!` / `debug_assert!` / return `Err` |
 | `throw` | `return Err(...)` (recoverable) or `panic!` (bug) |
 | `try/catch` | `match` on `Result`, or `?` to propagate |
