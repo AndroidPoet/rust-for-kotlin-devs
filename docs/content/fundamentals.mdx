@@ -52,7 +52,7 @@ Rust is explicit about integer width and signedness. There is no single `Int`.
 | `Int` | `i32` (default integer) |
 | `Long` | `i64` |
 | `Short` / `Byte` | `i16` / `i8` |
-| unsigned (none) | `u8`, `u32`, `u64`, `usize` (usize = index/length type) |
+| `UByte` / `UShort` / `UInt` / `ULong` (unsigned, stable since 1.5) | `u8` / `u16` / `u32` / `u64` — plus `usize` (index/length type, no Kotlin equivalent) |
 | `Float` / `Double` | `f32` / `f64` (default float) |
 | `Boolean` | `bool` |
 | `Char` | `char` (a full Unicode scalar, 4 bytes — not a UTF-16 unit) |
